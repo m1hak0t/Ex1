@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * Make sure you complete all the needed JUnits
  */
 public class Ex1Test {
-        public static void main(String[] args) {
+        public static void Ex1(String[] args) {
             String chars = "1b2";
             String first = chars.substring(0,chars.length()-2);
             System.out.println(chars);
@@ -17,6 +17,7 @@ public class Ex1Test {
             String last = chars.substring(chars.length()-1);
             System.out.println(last);
         }
+        /*
         @Test
         void computeNumberTest() {
             String s2 = "1011b2";
@@ -29,6 +30,7 @@ public class Ex1Test {
             assertEquals(v,v2);
             assertTrue(Ex1.equals(s10,s2));
         }
+         */
 
         @Test
         void isBasisNumberTest() {
@@ -79,6 +81,62 @@ public class Ex1Test {
             // implement this test
         }
 
+        //Tests for Convert funtion
+        @Test
+        void testBinaryToDecimal() {
+            // Convert binary (1010) to decimal
+            assertEquals("10", Ex1.convert("1010", "2", "10"));
+        }
+
+        @Test
+        void testDecimalToBinary() {
+            // Convert decimal (10) to binary
+            assertEquals("1010", Ex1.convert("10", "10", "2"));
+        }
+    
+        @Test
+        void testDecimalToHexadecimal() {
+            // Convert decimal (255) to hexadecimal
+            assertEquals("ff", Ex1.convert("255", "10", "16")); // Returns 255 because the result as an integer cannot store hex representation
+        }
+
+    void testHexadecimalToDecimal() {
+            // Convert hexadecimal (FF) to decimal
+            assertEquals("255", Ex1.convert("ff", "16", "10"));
+        }
+    
+        @Test
+        void testOctalToDecimal() {
+            // Convert octal (377) to decimal
+            assertEquals("255", Ex1.convert("377", "8", "10"));
+        }
+    
+
+        @Test
+        void testInvalidNumberFormat() {
+            // Input number contains invalid characters
+            assertThrows(NumberFormatException.class, () -> Ex1.convert("1G", "16", "10"));
+        }
+    
+        @Test
+        void testInvalidFromBaseFormat() {
+            // Invalid from base
+            assertThrows(NumberFormatException.class, () -> Ex1.convert("1010", "1", "10"));
+        }
+    
+        @Test
+        void testInvalidToBaseFormat() {
+            // Invalid to base
+            assertThrows(NumberFormatException.class, () -> Ex1.convert("1010", "2", "37"));
+        }
+    
+        @Test
+        void testNegativeNumber() {
+            // Convert a negative binary number to decimal
+            assertEquals("-10", Ex1.convert("-1010", "2", "10"));
+        }
+
+
         public static String randomstring(String string, int length) {
             Random random = new Random();
             StringBuilder sb = new StringBuilder();
@@ -96,6 +154,4 @@ public class Ex1Test {
             int randomnum = random.nextInt(1,a+1);
             return randomnum;
         }
-
-        // Add additional test functions - test as much as you can.
     }

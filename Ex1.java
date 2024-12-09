@@ -13,7 +13,7 @@
 public class Ex1 {
 
         public static void main(String[] args) {
-            System.out.println(isNumber(""));
+            System.out.println(convert("F","16","3"));
         }
         /**
          * Convert the given number (num) to a decimal representation (as int).
@@ -139,6 +139,17 @@ public class Ex1 {
 
             ////////////////////
             return ans;
+        }
+        //The function converts any string number from any base to any base
+        public static String convert(String number,String frombase, String tobase) {
+            String result = "";
+            if (Integer.parseInt(frombase) <= 16 && Integer.parseInt(frombase )>=2 && Integer.parseInt(tobase) <= 16 && Integer.parseInt(tobase)>=2) {
+                int numinten = Integer.parseInt(number, Integer.parseInt(frombase));
+                result = (Integer.toString(numinten, Integer.parseInt(tobase)));
+            } else {
+                throw new NumberFormatException();
+            }
+            return result;
         }
 }
 
