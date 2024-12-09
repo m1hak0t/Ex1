@@ -13,7 +13,7 @@
 public class Ex1 {
 
         public static void main(String[] args) {
-            System.out.println(isNumber("bbbbbb"));
+            System.out.println(isNumber(""));
         }
         /**
          * Convert the given number (num) to a decimal representation (as int).
@@ -23,9 +23,6 @@ public class Ex1 {
          */
         public static int number2Int(String num) {
             int ans = -1;
-            // add your code here
-
-            ////////////////////
             return ans;
         }
         /**
@@ -33,26 +30,56 @@ public class Ex1 {
          * @param a a String representing a number
          * @return true iff the given String is in a number format
          */
+        //The function that checks is the number is a legitimate number
         public static boolean isNumber(String a) {
-            a = a.toLowerCase();
+            //Variables init
             boolean ans = true;
             String chars = "0123456789abcdefg";
-            //input reqs
-            if (a.length() >= 3 && a.substring((a.length() - 2), (a.length() - 1)).equals("b")) {
+            String nums = "0123456789";
+            //Handling unusual scenarious
+            //False if a == null
+            if (a==null) {
+                ans = false;
+                return ans;
+            }
+            //False if a == ""
+            if (a.equals("")) {
+                ans = false;
+                return ans;
+            }
+            //If the number without a base and in valid format - true
+            if (!a.contains("b") && !a.substring(0,1).equals("0") && !a.equals(" ")) {
+                for (int i = 0; i < a.length(); i += 1) {
+                    if (!nums.contains(Character.toString(a.charAt(i)))){
+                        ans = false;
+                        return ans;
+                    }
+                }
+            }
+            //If the number is represented with the base - check if this is legal format
+            if (a!= null && a.length() >= 3 && a.substring((a.length() - 2), (a.length() - 1)).equals("b") && !a.substring(0,1).equals("0")){
+                a = a.toLowerCase();
+                //System.out.println("Current input: " + a);
                 //String[] parts = a.split("b");
                 //String first = parts[0];
                 //String second = parts[1];
-                String number = chars.substring(0, chars.length() - 2);
-                String base = chars.substring(chars.length() - 1);
+                //*Get the number part of the number
+                String number = a.substring(0, a.length() - 2);
+                //System.out.println("Current number " + number);
+                //*Get the base part of the number
+                String base = a.substring(a.length() - 1);
+                //* Initiate the allowed range for the base
                 String baserange = chars.substring(2, chars.length());
-                System.out.println(number);
-                System.out.println(base);
-                System.out.println(baserange);
+                //System.out.println("Current base  " + base);
+                //System.out.println("Allowed base range " + baserange);
+                //If the base is a legal base
                 if (baserange.contains(base)) {
+                    //*Initialize allowed number range according to the base
                     String numrange = chars.substring(0, chars.indexOf(base));
-                    for (int i = 0; i < numrange.length() - 1; i++) {
-                        //To check if all the numbers on the left are in the specific range of numrange and if yes  -> true
-                        if (number.contains(Character.toString(numrange.charAt(i)))) {
+                    //System.out.println("Current numbrange: " + numrange);
+                    for (int i = 0; i < number.length() ; i++) {
+                        //*To check if all the numbers on the left are in the specific range of numrange and if yes  -> true
+                        if (!numrange.contains(Character.toString(number.charAt(i)))) {
                             ans = false;
                             break;
                         }
@@ -61,6 +88,7 @@ public class Ex1 {
                     ans = false;
                 }
             } else {
+
                 ans = false;
             }
 
