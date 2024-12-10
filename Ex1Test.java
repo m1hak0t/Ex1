@@ -74,12 +74,8 @@ public class Ex1Test {
 
 
         @Test
-        void int2NumberTest() {
-           // implement this test
-        }
-        @Test
         void maxIndexTest() {
-            // implement this test
+
         }
 
         //Tests for Convert funtion
@@ -214,6 +210,23 @@ public class Ex1Test {
             assertNotNull(exception);
         }
 
+        //Maxindex tests
+
+
+        @Test
+        public void testMaxIndexWithDuplicates() {
+            String[] arr = {"10bA", "30bA", "30bA", "1bB"};
+            int result = Ex1.maxIndex(arr);
+            assertEquals(1, result); // First occurrence of the largest value "30bA"
+        }
+
+        @Test
+        public void testMaxIndexWithSingleBase17Element() {
+            String[] arr = {"42bA"};
+            int result = Ex1.maxIndex(arr);
+            assertEquals(0, result); // Only one element, so index 0
+        }
+
 
         public static String randomstring(String string, int length) {
             Random random = new Random();
@@ -231,6 +244,54 @@ public class Ex1Test {
             Random random = new Random();
             int randomnum = random.nextInt(1,a+1);
             return randomnum;
+        }
+
+        //Toten function checks
+
+        @Test
+        public void testTotenWithNumberWithoutBase() {
+            String input = "123";
+            int result = Ex1.toten(input);
+            assertEquals(123, result); // Expecting 123 in base 10
+        }
+
+        @Test
+        public void testTotenWithNumberAndBase() {
+            String input = "123bG";
+            int result = Ex1.toten(input);
+            assertEquals(291, result); // 123 in base 16 is 291 in base 10
+        }
+
+        @Test
+        public void testTotenWithBase2() {
+            String input = "1101b2";
+            int result = Ex1.toten(input);
+            assertEquals(13, result); // 1101 in base 2 is 13 in base 10
+        }
+
+        @Test
+        public void testTotenWithBase10() {
+            String input = "345bA";
+            int result = Ex1.toten(input);
+            assertEquals(345, result); // 345 in base 10 is still 345
+        }
+
+        @Test
+        public void testTotenWithNullInput() {
+            String input = null;
+            assertThrows(NumberFormatException.class, () -> Ex1.toten(input));
+        }
+
+        @Test
+        public void testTotenWithInvalidFormat() {
+            String input = "123bx";
+            assertThrows(NumberFormatException.class, () -> Ex1.toten(input));
+        }
+
+        @Test
+        public void testTotenWithEmptyString() {
+            String input = "";
+            assertThrows(NumberFormatException.class, () -> Ex1.toten(input));
         }
         
         

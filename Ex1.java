@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -16,7 +18,8 @@ import java.util.List;
 public class Ex1 {
 
         public static void main(String[] args) {
-            System.out.println(unwrap("123bA"));
+            String [] test = {"AbB","FbG","FbG","FbG"};
+            System.out.println(maxIndex(test));
         }
         /**
          * This static function checks if the given String (g) is in a valid "number" format.
@@ -96,7 +99,7 @@ public class Ex1 {
          */
         public static String convert(String number,String frombase, String tobase) {
             String result = "";
-            if (Integer.parseInt(frombase) <= 16 && Integer.parseInt(frombase) >= 2 && Integer.parseInt(tobase) <= 16 && Integer.parseInt(tobase) >= 2) {
+            if (Integer.parseInt(frombase) <= 17 && Integer.parseInt(frombase) >= 2 && Integer.parseInt(tobase) <= 16 && Integer.parseInt(tobase) >= 2) {
                 int numinten = Integer.parseInt(number, Integer.parseInt(frombase));
                 result = (Integer.toString(numinten, Integer.parseInt(tobase)));
             } else {
@@ -133,10 +136,17 @@ public class Ex1 {
          *
          */
         public static int maxIndex(String[] arr) {
+            List<Integer> resultlist = new ArrayList<>();
             int ans = 0;
-            // add your code here
-
-            ////////////////////
+            for (int i=0 ; i < arr.length; i+=1) {
+                if (isNumber(arr[i])){
+                resultlist.add(toten(arr[i]));
+                }else {
+                    throw new NumberFormatException();
+                }
+            }
+            int max = resultlist.stream().max(Comparator.naturalOrder()).get().intValue();
+            ans += resultlist.indexOf(max);
             return ans;
 
         }
@@ -157,6 +167,23 @@ public class Ex1 {
             } else {
                 throw new NumberFormatException();
             }
+        }
+
+        //Takes any allowed string and authomatically identifies it's base and turns it into 10
+
+        public static int toten(String s) {
+            int result = 0;
+            List<String> unwrapped = unwrap(s);
+            if (unwrapped.size() > 1) {
+                String basedirty = unwrapped.get(1);
+                String numdirty = unwrapped.get(0);
+                String baseclean = convert(basedirty,"17","10");
+                String numclean = convert(numdirty,baseclean,"10");
+                result += Integer.parseInt(numclean);
+            } else {
+                result += Integer.parseInt(s);
+            }
+            return result;
         }
 
 
