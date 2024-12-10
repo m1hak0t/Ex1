@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Random;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,12 +23,12 @@ public class Ex1Test {
         void computeNumberTest() {
             String s2 = "1011b2";
             int v = Ex1.number2Int(s2);
-            assertEquals(v,11);
+            assertEx1(v,11);
             String s10 = "1011bA";
             v = Ex1.number2Int(s10);
             s2 = Ex1.int2Number(v,2);
             int v2 = Ex1.number2Int(s2);
-            assertEquals(v,v2);
+            assertEx1(v,v2);
             assertTrue(Ex1.equals(s10,s2));
         }
          */
@@ -37,7 +38,7 @@ public class Ex1Test {
             System.out.println("100111b2");
             assertTrue(Ex1.isNumber("100111b2")); // Valid binary
             System.out.println("012b5");
-            assertFalse(Ex1.isNumber("012b5")); // Valid with leading zero
+            assertTrue(Ex1.isNumber("012b5")); // Valid with leading zero
             System.out.println("12345b6");
             assertTrue(Ex1.isNumber("12345b6")); // Valid base 6
             System.out.println("123bG");
@@ -100,7 +101,7 @@ public class Ex1Test {
             assertEquals("ff", Ex1.convert("255", "10", "16")); // Returns 255 because the result as an integer cannot store hex representation
         }
 
-    void testHexadecimalToDecimal() {
+        void testHexadecimalToDecimal() {
             // Convert hexadecimal (FF) to decimal
             assertEquals("255", Ex1.convert("ff", "16", "10"));
         }
@@ -135,6 +136,83 @@ public class Ex1Test {
             // Convert a negative binary number to decimal
             assertEquals("-10", Ex1.convert("-1010", "2", "10"));
         }
+        
+        //Testf for the equal function
+
+        @Test
+        void testEqualStrings() {
+            // Test when both strings are exactly the same
+            assertTrue(Ex1.equals("123", "123"));
+            assertTrue(Ex1.equals("hello", "hello"));
+            assertTrue(Ex1.equals("", ""));
+        }
+    
+        @Test
+        void testDifferentStrings() {
+            // Test when strings have different values
+            assertFalse(Ex1.equals("123", "124"));
+            assertFalse(Ex1.equals("hello", "Hello")); // Case-sensitive
+            assertFalse(Ex1.equals("a", "b"));
+        }
+    
+        @Test
+        void testNullStrings() {
+            // Test null inputs
+            assertThrows(NullPointerException.class, () -> Ex1.equals(null, "123"));
+            assertThrows(NullPointerException.class, () -> Ex1.equals("123", null));
+            assertThrows(NullPointerException.class, () -> Ex1.equals(null, null));
+        }
+    
+        @Test
+        void testSpecialCharacters() {
+            // Test strings with special characters
+            assertTrue(Ex1.equals("!@#$%", "!@#$%"));
+            assertFalse(Ex1.equals("hello!", "hello"));
+        }
+    
+        @Test
+        void testWhitespaceStrings() {
+            // Test strings with whitespaces
+            assertTrue(Ex1.equals(" ", " "));
+            assertFalse(Ex1.equals("hello ", "hello"));
+            assertFalse(Ex1.equals(" hello", "hello"));
+        }
+
+        @Test
+        public void testUnwrapNumberWithoutBase() {
+            String input = "123";
+            List<String> result = Ex1.unwrap(input);
+            assertEquals(1, result.size());
+            assertEquals("123", result.get(0));
+        }
+
+        @Test
+        public void testUnwrapNumberWithBase() {
+            String input = "123bA";
+            List<String> result = Ex1.unwrap(input);
+            assertEquals(2, result.size());
+            assertEquals("123", result.get(0));
+            assertEquals("A", result.get(1));
+        }
+
+
+        @Test
+        public void testUnwrapEmptyInput() {
+            String input = "";
+            NumberFormatException exception = assertThrows(NumberFormatException.class, () -> {
+                Ex1.unwrap(input);
+            });
+            assertNotNull(exception);
+        }
+
+        @Test
+        public void testUnwrapNullInput() {
+            String input = null;
+            NumberFormatException exception = assertThrows(NumberFormatException.class, () -> {
+                Ex1.unwrap(input);
+            });
+            assertNotNull(exception);
+        }
 
 
         public static String randomstring(String string, int length) {
@@ -154,4 +232,6 @@ public class Ex1Test {
             int randomnum = random.nextInt(1,a+1);
             return randomnum;
         }
+        
+        
     }

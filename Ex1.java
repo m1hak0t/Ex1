@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This class represents a simple solution for Ex1.
  * As defined here: https://docs.google.com/document/d/1AJ9wtnL1qdEs4DAKqBlO1bXCM6r6GJ_J/r/edit/edit
@@ -13,17 +16,7 @@
 public class Ex1 {
 
         public static void main(String[] args) {
-            System.out.println(convert("F","16","3"));
-        }
-        /**
-         * Convert the given number (num) to a decimal representation (as int).
-         * It the given number is not in a valid format returns -1.
-         * @param num a String representing a number in basis [2,16]
-         * @return
-         */
-        public static int number2Int(String num) {
-            int ans = -1;
-            return ans;
+            System.out.println(unwrap("123bA"));
         }
         /**
          * This static function checks if the given String (g) is in a valid "number" format.
@@ -48,21 +41,18 @@ public class Ex1 {
                 return ans;
             }
             //If the number without a base and in valid format - true
-            if (!a.contains("b") && !a.substring(0,1).equals("0") && !a.equals(" ")) {
+            if (!a.contains("b")  && !a.equals(" ")) {
                 for (int i = 0; i < a.length(); i += 1) {
                     if (!nums.contains(Character.toString(a.charAt(i)))){
                         ans = false;
-                        return ans;
                     }
                 }
+                return ans;
             }
             //If the number is represented with the base - check if this is legal format
-            if (a!= null && a.length() >= 3 && a.substring((a.length() - 2), (a.length() - 1)).equals("b") && !a.substring(0,1).equals("0")){
+            if (a!= null && a.length() >= 3 && a.substring((a.length() - 2), (a.length() - 1)).equals("b") ){
                 a = a.toLowerCase();
                 //System.out.println("Current input: " + a);
-                //String[] parts = a.split("b");
-                //String first = parts[0];
-                //String second = parts[1];
                 //*Get the number part of the number
                 String number = a.substring(0, a.length() - 2);
                 //System.out.println("Current number " + number);
@@ -88,8 +78,8 @@ public class Ex1 {
                     ans = false;
                 }
             } else {
-
                 ans = false;
+
             }
 
             return ans;
@@ -102,13 +92,17 @@ public class Ex1 {
          * @param num the natural number (include 0).
          * @param base the basis [2,16]
          * @return a String representing a number (in base) equals to num, or an empty String (in case of wrong input).
+         * And my function can also do the opposite yeyyooo
          */
-        public static String int2Number(int num, int base) {
-            String ans = "";
-            // add your code here
-
-            ////////////////////
-            return ans;
+        public static String convert(String number,String frombase, String tobase) {
+            String result = "";
+            if (Integer.parseInt(frombase) <= 16 && Integer.parseInt(frombase) >= 2 && Integer.parseInt(tobase) <= 16 && Integer.parseInt(tobase) >= 2) {
+                int numinten = Integer.parseInt(number, Integer.parseInt(frombase));
+                result = (Integer.toString(numinten, Integer.parseInt(tobase)));
+            } else {
+                throw new NumberFormatException();
+            }
+            return result;
         }
 
         /**
@@ -118,8 +112,13 @@ public class Ex1 {
          * @return true iff the two numbers have the same values.
          */
         public static boolean equals(String n1, String n2) {
+            if (n1==(null) | n2==(null)) {
+                throw new NullPointerException();
+            }
             boolean ans = true;
-            // add your code here
+            if (!n1.equals(n2)) {
+                ans = false;
+            }
 
             ////////////////////
             return ans;
@@ -139,18 +138,27 @@ public class Ex1 {
 
             ////////////////////
             return ans;
+
         }
-        //The function converts any string number from any base to any base
-        public static String convert(String number,String frombase, String tobase) {
-            String result = "";
-            if (Integer.parseInt(frombase) <= 16 && Integer.parseInt(frombase )>=2 && Integer.parseInt(tobase) <= 16 && Integer.parseInt(tobase)>=2) {
-                int numinten = Integer.parseInt(number, Integer.parseInt(frombase));
-                result = (Integer.toString(numinten, Integer.parseInt(tobase)));
+        //Recieves a string that represents a number and a base or only a number. Returns a list of two strings ["number", "base"] or only ["number"] if base is not recieved
+        public static List<String> unwrap(String s) {
+            if (s!=null) {
+                List<String> result = new ArrayList<>();
+                if (isNumber(s)) {
+                    if (!s.contains("b")) {
+                        result.add(s);
+                    } else {
+                        result = List.of(s.split("b"));
+                    }
+                } else {
+                    throw new NumberFormatException();
+                }
+                return result;
             } else {
                 throw new NumberFormatException();
             }
-            return result;
         }
-}
 
+
+}
 
