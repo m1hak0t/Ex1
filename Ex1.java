@@ -18,7 +18,7 @@ import java.util.List;
 public class Ex1 {
 
         public static void main(String[] args) {
-            String [] test = {"AbB","FbG","FbG","FbG"};
+            String [] test = {"123", "234", "18CbG", "87DCbG"};
             System.out.println(maxIndex(test));
         }
         /**
@@ -169,7 +169,7 @@ public class Ex1 {
             }
         }
 
-        //Takes any allowed string and authomatically identifies it's base and turns it into 10
+        //Takes any allowed string and authomatically identifies it's base and turns it into 10 11000b2 --> 24
 
         public static int toten(String s) {
             int result = 0;

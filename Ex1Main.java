@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -7,6 +8,7 @@ import java.util.Scanner;
  */
 public class Ex1Main {
     public static void main(String[] args) {
+        String chars = "0123456789ABCDEFG";
         Scanner sc = new Scanner(System.in);
         String num1 = "", num2="", quit = "quit" ,base="";
         while (!num1.equals(quit) && !num2.equals(quit)) {
@@ -33,6 +35,16 @@ public class Ex1Main {
                             //Check if the base is valid, otherwise error
                             if (Integer.parseInt(base) > 1 && Integer.parseInt(base)<17) {
                                 //Implement the funcitonality
+                                //Calculating the sum
+                                String sum = String.valueOf(Ex1.toten(num1) + Ex1.toten(num2));
+                                String sumindesiredbase = Ex1.convert(sum,"10",base);
+                                System.out.println(num1 +  " + " + num2 + " = " + sumindesiredbase.toUpperCase());
+                                String multiply = String.valueOf(Ex1.toten(num1) * Ex1.toten(num2));
+                                String multyplyindesiredbase = Ex1.convert(multiply,"10",base);
+                                System.out.println(num1 +  " * " + num2 + " = " + multyplyindesiredbase.toUpperCase());
+                                String [] result = {num1,num2,sumindesiredbase.toUpperCase()+"b"+chars.charAt(Integer.parseInt(base)),multyplyindesiredbase.toUpperCase()+"b"+chars.charAt(Integer.parseInt(base))};
+                                //System.out.println("Max index" + Ex1.maxIndex(result));
+                                System.out.println("Max number over " + Arrays.toString(result) + " ---> " + result[Ex1.maxIndex(result)]);
                             } else {
                                 System.out.println("ERR: wrong base, should be [2,16], got " + base);
                             }
